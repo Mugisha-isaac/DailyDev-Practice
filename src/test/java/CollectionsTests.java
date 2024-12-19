@@ -1,10 +1,7 @@
 import com.dailyDev.collections.HandleNullValues;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -36,5 +33,24 @@ public class CollectionsTests {
 
         // performing actions on a null values, should return NullPointerException
         assertThrows(NullPointerException.class, () -> numbers.forEach(Object::toString));
+    }
+
+    @Test
+    void givenTreeSet_whenNullValueAdded_mightFail(){
+        Integer[] numberArray = { null, 0, 1, null, 2, 3, null };
+        assertThrows(NullPointerException.class, ()-> new TreeSet<>(Arrays.asList(numberArray)));
+    }
+
+    @Test
+    void givenHashMap_whenNullKeyValueAdded_doesNotFail(){
+        Integer[] numberArray = { null, 0, 1, null, 2, 3, null };
+        Map<Integer,Integer> numbers = new HashMap<>();
+        Arrays.stream(numberArray).forEach(integer -> numbers.put(integer,integer));
+
+        assertTrue(numbers.containsKey(null));
+        assertTrue(numbers.containsValue(null));
+        assertNull(numbers.get(null));
+
+        assertThrows(NullPointerException.class, () -> numbers.get(null).toString());
     }
 }
